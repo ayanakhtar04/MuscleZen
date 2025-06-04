@@ -1,0 +1,32 @@
+/* Icon fixes for Font Awesome */
+.fa-tachometer::before {
+  content: "\f0e4";
+}
+
+.fa-dumbbell::before {
+  content: "\f44b";
+  /* Fallback for older Font Awesome */
+  content: "\f1b1";
+}
+
+.fa-cutlery::before {
+  content: "\f2e7";
+  /* Fallback for older Font Awesome */
+  content: "\f0f5";
+}
+
+.fa-line-chart::before {
+  content: "\f201";
+}
+
+/* Additional icon styles */
+.nav-link i {
+  width: 20px;
+  text-align: center;
+  margin-right: 10px;
+}
+
+.sidebar .nav-link:hover i {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}

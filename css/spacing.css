@@ -1,0 +1,224 @@
+/* Spacing Utilities */
+.section-spacing {
+  margin-bottom: 2rem;
+}
+
+.content-padding {
+  padding: 1.5rem;
+}
+
+.card-spacing {
+  margin-bottom: 1.5rem;
+}
+
+/* Grid spacing */
+.row {
+  margin-bottom: 1.5rem;
+}
+
+/* Form group spacing */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+/* Content sections */
+.content-section {
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+/* Flex container spacing */
+.flex-container {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Base spacing units */
+:root {
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-xxl: 2.5rem;
+}
+
+/* Section spacing */
+.section-spacing {
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-spacing-lg {
+  margin-bottom: var(--spacing-xxl);
+}
+
+/* Content padding */
+.content-padding {
+  padding: var(--spacing-lg);
+}
+
+.content-padding-lg {
+  padding: var(--spacing-xl);
+}
+
+/* Card spacing */
+.card-spacing {
+  margin-bottom: var(--spacing-lg);
+}
+
+.card {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Grid system */
+.row {
+  margin-bottom: var(--spacing-lg);
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+/* Form elements */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-control {
+  margin-bottom: var(--spacing-sm);
+}
+
+/* Content sections */
+.content-section {
+  padding: var(--spacing-xl);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-bottom: var(--spacing-xl);
+}
+
+/* Flex containers */
+.flex-container {
+  display: flex;
+  gap: var(--spacing-lg);
+}
+
+/* Margin utilities */
+.m-0 {
+  margin: 0 !important;
+}
+.mt-0 {
+  margin-top: 0 !important;
+}
+.mb-0 {
+  margin-bottom: 0 !important;
+}
+.ml-0 {
+  margin-left: 0 !important;
+}
+.mr-0 {
+  margin-right: 0 !important;
+}
+
+.m-1 {
+  margin: var(--spacing-xs) !important;
+}
+.m-2 {
+  margin: var(--spacing-sm) !important;
+}
+.m-3 {
+  margin: var(--spacing-md) !important;
+}
+.m-4 {
+  margin: var(--spacing-lg) !important;
+}
+.m-5 {
+  margin: var(--spacing-xl) !important;
+}
+
+/* Padding utilities */
+.p-0 {
+  padding: 0 !important;
+}
+.pt-0 {
+  padding-top: 0 !important;
+}
+.pb-0 {
+  padding-bottom: 0 !important;
+}
+.pl-0 {
+  padding-left: 0 !important;
+}
+.pr-0 {
+  padding-right: 0 !important;
+}
+
+.p-1 {
+  padding: var(--spacing-xs) !important;
+}
+.p-2 {
+  padding: var(--spacing-sm) !important;
+}
+.p-3 {
+  padding: var(--spacing-md) !important;
+}
+.p-4 {
+  padding: var(--spacing-lg) !important;
+}
+.p-5 {
+  padding: var(--spacing-xl) !important;
+}
+
+/* Gap utilities */
+.gap-1 {
+  gap: var(--spacing-xs) !important;
+}
+.gap-2 {
+  gap: var(--spacing-sm) !important;
+}
+.gap-3 {
+  gap: var(--spacing-md) !important;
+}
+.gap-4 {
+  gap: var(--spacing-lg) !important;
+}
+.gap-5 {
+  gap: var(--spacing-xl) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-section {
+    padding: var(--spacing-lg);
+  }
+
+  .section-spacing {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .flex-container {
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .content-padding {
+    padding: var(--spacing-md);
+  }
+}
+
+/* Responsive spacing */
+@media (max-width: 768px) {
+  .content-section {
+    padding: 1.5rem;
+  }
+
+  .section-spacing {
+    margin-bottom: 1.5rem;
+  }
+}

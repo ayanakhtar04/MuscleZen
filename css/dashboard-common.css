@@ -1,0 +1,31 @@
+/* Common Dashboard Styles */
+.sidebar {
+  min-height: 100vh;
+  background-color: #343a40;
+  padding-top: 20px;
+}
+.sidebar .nav-link {
+  color: #fff;
+  padding: 15px 20px;
+  margin: 5px 0;
+}
+.sidebar .nav-link:hover {
+  background-color: #495057;
+}
+.sidebar .nav-link.active {
+  background-color: #0d6efd;
+}
+.sidebar .nav-link i {
+  margin-right: 10px;
+}
+.main-content {
+  padding: 20px;
+}
+.page-header {
+  margin-bottom: 30px;
+}
+.card {
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}

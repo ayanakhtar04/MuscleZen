@@ -1,0 +1,31 @@
+/* Custom styles for the admin login option */
+.admin-link {
+    color: #3498db !important;
+    font-weight: 500;
+    border-top: 1px solid #eee;
+}
+
+.admin-link:hover {
+    background-color: #f8f9fa;
+    color: #2980b9 !important;
+}
+
+.dropdown-menu {
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border: none;
+    padding: 8px 0;
+}
+
+.dropdown-item {
+    padding: 8px 20px;
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+.account-icon {
+    margin-right: 8px;
+}
