@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | MuscleZen</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/dashboard-common.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <div id="sidebar-placeholder"></div>
+
+        <!-- Main Content -->
+        <div class="col-md-9 col-lg-10 main-content">
+          <div class="page-header">
+            <h2>Welcome, <span id="user-name">User</span>!</h2>
+          </div>
+
+          <!-- Stats Row -->
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Workout Stats</h5>
+                  <p>This Week's Progress</p>
+                  <div class="progress mb-3">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 75%"
+                    ></div>
+                  </div>
+                  <p>3 of 4 workouts completed</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Nutrition</h5>
+                  <p>Daily Calories</p>
+                  <div class="progress mb-3">
+                    <div
+                      class="progress-bar bg-success"
+                      role="progressbar"
+                      style="width: 60%"
+                    ></div>
+                  </div>
+                  <p>1500 of 2500 calories consumed</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Goals</h5>
+                  <p>Monthly Progress</p>
+                  <div class="progress mb-3">
+                    <div
+                      class="progress-bar bg-info"
+                      role="progressbar"
+                      style="width: 40%"
+                    ></div>
+                  </div>
+                  <p>2 of 5 goals achieved</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Activity -->
+          <div class="row mt-4">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Recent Activity</h5>
+                  <div class="list-group" id="recent-activity">
+                    <!-- Activity items will be loaded here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Check session status
+        function checkSession() {
+          $.ajax({
+            url: "php/check_session.php",
+            method: "GET",
+            success: function (response) {
+              console.log("Session check response:", response);
+              if (!response.logged_in) {
+                window.location.href = "login.html";
+              } else {
+                $("#user-name").text(response.username);
+                loadDashboardData();
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error("Session check error:", error);
+              window.location.href = "login.html";
+            },
+          });
+        }
+
+        // Load dashboard data
+        function loadDashboardData() {
+          $.ajax({
+            url: "php/get_dashboard_data.php",
+            method: "GET",
+            success: function (response) {
+              console.log("Dashboard data:", response);
+              if (response.status === "success") {
+                // Update recent activity
+                updateRecentActivity(response.data.activities);
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error("Dashboard data error:", error);
+            },
+          });
+        }
+
+        // Update recent activity list
+        function updateRecentActivity(activities) {
+          const activityList = $("#recent-activity");
+          activityList.empty();
+
+          if (activities && activities.length > 0) {
+            activities.forEach((activity) => {
+              activityList.append(`
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">${activity.title}</h6>
+                                    <small>${activity.date}</small>
+                                </div>
+                                <p class="mb-1">${activity.description}</p>
+                            </div>
+                        `);
+            });
+          } else {
+            activityList.append(`
+                        <div class="list-group-item">
+                            <p class="mb-1">No recent activity</p>
+                        </div>
+                    `);
+          }
+        }
+
+        // Load sidebar
+        $("#sidebar-placeholder").load("components/sidebar.html", function () {
+          // Highlight current page in sidebar
+          $('.nav-link[href="dashboard.html"]').addClass("active");
+
+          // Setup logout handler
+          $("#logout-link").click(function (e) {
+            e.preventDefault();
+            $.ajax({
+              url: "php/logout.php",
+              method: "POST",
+              success: function () {
+                window.location.href = "login.html";
+              },
+            });
+          });
+        });
+
+        // Initial session check
+        checkSession();
+      });
+    </script>
+  </body>
+</html>

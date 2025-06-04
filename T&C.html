@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms and Conditions</title>
+    <link rel="stylesheet" href="css/T&C.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Terms and Conditions</h1>
+    </header>
+    <main>
+      <section>
+        <h2>Introduction</h2>
+        <p>Last updated: 23/08/2024</p>
+        <p>
+          These Terms and Conditions ("Terms") govern your use of our website,<a
+            href="index.html"
+            >https://MuscleZen.html</a
+          >, and any services offered through it.
+        </p>
+      </section>
+      <section>
+        <h2>Acceptance of Terms</h2>
+        <p>
+          By using our website, you agree to be bound by these Terms. If you do
+          not agree to these Terms, please do not use our website.
+        </p>
+      </section>
+      <section>
+        <h2>Intellectual Property</h2>
+        <p>
+          All content on our website, including text, images, and software, is
+          the property of MuscleZen and is protected by copyright and other
+          intellectual property laws.
+        </p>
+      </section>
+      <section>
+        <h2>Limitation of Liability</h2>
+        <p>
+          In no event will MuscleZen be liable for any damages, including but
+          not limited to incidental, consequential, or punitive damages, arising
+          out of the use of our website.
+        </p>
+      </section>
+      <section>
+        <h2>Governing Law</h2>
+        <p>
+          These Terms will be governed by and construed in accordance with the
+          laws of Rajasthan/India.
+        </p>
+      </section>
+      <section>
+        <h2>Changes to Terms</h2>
+        <p>
+          We reserve the right to modify these Terms at any time. Your continued
+          use of our website after any changes to these Terms will constitute
+          your acceptance of the revised Terms.
+        </p>
+      </section>
+      <section>
+        <h2>Contact Us</h2>
+        <p>
+          If you have any questions or concerns about these Terms, please
+          contact us at
+          <a href="mailto:support@MuscleZen.in">support@MuscleZen.in</a> .
+        </p>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2024 MuscleZen. All rights reserved.</p>
+    </footer>
+    <script>
+      // Create and style the "Back to top" button
+      var backButton = document.createElement("button");
+      backButton.textContent = "Back to top";
+      backButton.style.position = "fixed";
+      backButton.style.bottom = "20px";
+      backButton.style.right = "20px";
+      backButton.style.display = "none"; // Initially hidden
+      backButton.style.padding = "10px 20px";
+      backButton.style.backgroundColor = "#007bff";
+      backButton.style.color = "#fff";
+      backButton.style.border = "none";
+      backButton.style.borderRadius = "5px";
+      backButton.style.cursor = "pointer";
+      backButton.style.zIndex = "1000"; // Make sure it is above other content
+
+      // Function to show or hide the button based on scroll position
+      function toggleBackButton() {
+        if (
+          window.scrollY + window.innerHeight >=
+          document.body.offsetHeight - 100
+        ) {
+          backButton.style.display = "block";
+        } else {
+          backButton.style.display = "none";
+        }
+      }
+
+      // Add event listener to the window object
+      window.addEventListener("scroll", toggleBackButton);
+
+      // Add click event to scroll back to top
+      backButton.addEventListener("click", function () {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Append button to the body
+      document.body.appendChild(backButton);
+    </script>
+  </body>
+</html>

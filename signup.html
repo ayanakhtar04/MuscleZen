@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up | MuscleZen</title>
+    <link rel="stylesheet" href="css/signup.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-md-8 col-12 mx-auto">
+          <div class="signup-form">
+            <div class="text-center">
+              <img
+                src="images/Fitness logo V2.png"
+                alt="MuscleZen Logo"
+                class="img-fluid"
+                style="width: 100px; height: auto"
+              />
+              <h2 class="mt-3">Create Account</h2>
+            </div>
+            <form id="signupForm" action="php/signup.php" method="post">
+              <div class="form-group">
+                <label for="username">Full Name</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="form-control"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  class="form-control"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control"
+                  autocomplete="new-password"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label for="street-address">Street Address</label>
+                <input
+                  type="text"
+                  id="street-address"
+                  name="street-address"
+                  class="form-control"
+                  autocomplete="street-address"
+                  required
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="city">City</label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      class="form-control"
+                      autocomplete="address-level2"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="state">State</label>
+                    <input
+                      type="text"
+                      id="state"
+                      name="state"
+                      class="form-control"
+                      autocomplete="address-level1"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="zip">ZIP Code</label>
+                    <input
+                      type="text"
+                      id="zip"
+                      name="zip"
+                      class="form-control"
+                      autocomplete="postal-code"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="country">Country</label>
+                    <input
+                      type="text"
+                      id="country"
+                      name="country"
+                      class="form-control"
+                      autocomplete="country"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input
+                      type="date"
+                      id="dob"
+                      name="dob"
+                      class="form-control"
+                      autocomplete="bday"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select
+                      id="gender"
+                      name="gender"
+                      class="form-control"
+                      autocomplete="sex"
+                      required
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="terms"
+                    name="terms"
+                    required
+                  />
+                  <label class="form-check-label" for="terms">
+                    I agree to the
+                    <a href="T&C.html" target="_blank">Terms and Conditions</a>
+                  </label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                Sign Up
+              </button>
+              <p class="text-center mt-3">
+                Already have an account? <a href="login.html">Login</a>
+              </p>
+            </form>
+            <div
+              id="signupMessage"
+              class="mt-3 text-center"
+              style="display: none"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#signupForm").on("submit", function (e) {
+          e.preventDefault();
+
+          // Clear previous messages
+          $("#signupMessage").hide().empty();
+
+          // Check if Terms and Conditions are accepted
+          if (!$("#terms").is(":checked")) {
+            $("#signupMessage")
+              .show()
+              .html(
+                '<div class="alert alert-danger">Please accept the Terms and Conditions</div>'
+              );
+            return false;
+          }
+
+          // Show loading message
+          $("#signupMessage")
+            .show()
+            .html(
+              '<div class="alert alert-info">Processing registration...</div>'
+            );
+
+          $.ajax({
+            type: "POST",
+            url: "php/signup.php",
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function (response) {
+              $("#signupMessage").show();
+              if (response.status === "success") {
+                $("#signupMessage").html(
+                  '<div class="alert alert-success">' +
+                    response.message +
+                    "</div>"
+                );
+                // Clear the form
+                $("#signupForm")[0].reset();
+                // Redirect after success
+                setTimeout(function () {
+                  window.location.href = "login.html";
+                }, 1500);
+              } else {
+                $("#signupMessage").html(
+                  '<div class="alert alert-danger">' +
+                    response.message +
+                    "</div>"
+                );
+              }
+            },
+            error: function (xhr, status, error) {
+              console.error("AJAX Error:", status, error);
+              console.log("Response:", xhr.responseText);
+              $("#signupMessage")
+                .show()
+                .html(
+                  '<div class="alert alert-danger">Error connecting to server. Please try again later.</div>'
+                );
+            },
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

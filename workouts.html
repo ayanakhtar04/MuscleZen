@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workouts | MuscleZen</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/dashboard-common.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div id="sidebar-placeholder"></div>
+
+        <div class="col-md-9 col-lg-10 main-content">
+          <div
+            class="page-header d-flex justify-content-between align-items-center"
+          >
+            <h2>My Workouts</h2>
+            <button
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#addWorkoutModal"
+            >
+              <i class="fa fa-plus"></i> New Workout
+            </button>
+          </div>
+
+          <!-- Workout Categories -->
+          <div class="row mb-4">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5>Strength Training</h5>
+                  <p>Build muscle and strength</p>
+                  <a href="#" class="btn btn-outline-primary btn-sm"
+                    >View Workouts</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5>Cardio</h5>
+                  <p>Improve endurance</p>
+                  <a href="#" class="btn btn-outline-primary btn-sm"
+                    >View Workouts</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <h5>Flexibility</h5>
+                  <p>Stretching and yoga</p>
+                  <a href="#" class="btn btn-outline-primary btn-sm"
+                    >View Workouts</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Workout List -->
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">My Workout Plans</h5>
+                  <div id="workout-list">
+                    <!-- Workouts will be loaded here -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Workout Modal -->
+    <div class="modal fade" id="addWorkoutModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Create New Workout</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="workout-form">
+              <div class="form-group">
+                <label>Workout Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="workout-name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" id="workout-category" required>
+                  <option value="strength">Strength Training</option>
+                  <option value="cardio">Cardio</option>
+                  <option value="flexibility">Flexibility</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Description</label>
+                <textarea
+                  class="form-control"
+                  id="workout-description"
+                  rows="3"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="save-workout">
+              Save Workout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Load sidebar
+        $("#sidebar-placeholder").load("components/sidebar.html", function () {
+          $('.nav-link[href="workouts.html"]').addClass("active");
+        });
+
+        // Load workouts
+        loadWorkouts();
+
+        // Save workout
+        $("#save-workout").click(function () {
+          const workoutData = {
+            name: $("#workout-name").val(),
+            category: $("#workout-category").val(),
+            description: $("#workout-description").val(),
+          };
+
+          $.ajax({
+            url: "php/save_workout.php",
+            method: "POST",
+            data: workoutData,
+            success: function (response) {
+              if (response.status === "success") {
+                $("#addWorkoutModal").modal("hide");
+                loadWorkouts();
+              }
+            },
+          });
+        });
+      });
+
+      function loadWorkouts() {
+        $.ajax({
+          url: "php/get_workouts.php",
+          method: "GET",
+          success: function (response) {
+            if (response.status === "success") {
+              displayWorkouts(response.data);
+            }
+          },
+        });
+      }
+
+      function displayWorkouts(workouts) {
+        const workoutList = $("#workout-list");
+        workoutList.empty();
+
+        if (workouts.length === 0) {
+          workoutList.append(
+            "<p>No workouts found. Create your first workout!</p>"
+          );
+          return;
+        }
+
+        workouts.forEach((workout) => {
+          workoutList.append(`
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${workout.name}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">${workout.category}</h6>
+                            <p class="card-text">${workout.description}</p>
+                            <button class="btn btn-primary btn-sm">Start Workout</button>
+                            <button class="btn btn-outline-danger btn-sm">Delete</button>
+                        </div>
+                    </div>
+                `);
+        });
+      }
+    </script>
+  </body>
+</html>

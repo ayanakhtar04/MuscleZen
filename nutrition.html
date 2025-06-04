@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nutrition | MuscleZen</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/dashboard-common.css" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div id="sidebar-placeholder"></div>
+
+        <div class="col-md-9 col-lg-10 main-content">
+          <div
+            class="page-header d-flex justify-content-between align-items-center"
+          >
+            <h2>Nutrition Tracker</h2>
+            <button
+              class="btn btn-primary"
+              data-toggle="modal"
+              data-target="#addMealModal"
+            >
+              <i class="fa fa-plus"></i> Log Meal
+            </button>
+          </div>
+
+          <!-- Daily Summary -->
+          <div class="row mb-4">
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h6>Calories</h6>
+                  <h3 id="calories-count">0/2000</h3>
+                  <div class="progress">
+                    <div
+                      class="progress-bar"
+                      role="progressbar"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h6>Protein</h6>
+                  <h3 id="protein-count">0g/150g</h3>
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-success"
+                      role="progressbar"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h6>Carbs</h6>
+                  <h3 id="carbs-count">0g/250g</h3>
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-info"
+                      role="progressbar"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card">
+                <div class="card-body text-center">
+                  <h6>Fat</h6>
+                  <h3 id="fat-count">0g/65g</h3>
+                  <div class="progress">
+                    <div
+                      class="progress-bar bg-warning"
+                      role="progressbar"
+                      style="width: 0%"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Meal Log -->
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Today's Meals</h5>
+              <div id="meal-log">
+                <!-- Meals will be loaded here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Meal Modal -->
+    <div class="modal fade" id="addMealModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Log Meal</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="meal-form">
+              <div class="form-group">
+                <label>Meal Type</label>
+                <select class="form-control" id="meal-type" required>
+                  <option value="breakfast">Breakfast</option>
+                  <option value="lunch">Lunch</option>
+                  <option value="dinner">Dinner</option>
+                  <option value="snack">Snack</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Food Item</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="food-item"
+                  required
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Calories</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="calories"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Protein (g)</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="protein"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Carbs (g)</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="carbs"
+                      required
+                    />
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Fat (g)</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="fat"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="save-meal">
+              Save Meal
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#sidebar-placeholder").load("components/sidebar.html", function () {
+          $('.nav-link[href="nutrition.html"]').addClass("active");
+        });
+
+        loadNutritionData();
+
+        $("#save-meal").click(function () {
+          const mealData = {
+            type: $("#meal-type").val(),
+            food: $("#food-item").val(),
+            calories: $("#calories").val(),
+            protein: $("#protein").val(),
+            carbs: $("#carbs").val(),
+            fat: $("#fat").val(),
+          };
+
+          $.ajax({
+            url: "php/save_meal.php",
+            method: "POST",
+            data: mealData,
+            success: function (response) {
+              if (response.status === "success") {
+                $("#addMealModal").modal("hide");
+                loadNutritionData();
+              }
+            },
+          });
+        });
+      });
+
+      function loadNutritionData() {
+        $.ajax({
+          url: "php/get_nutrition.php",
+          method: "GET",
+          success: function (response) {
+            if (response.status === "success") {
+              updateNutritionSummary(response.data.summary);
+              displayMeals(response.data.meals);
+            }
+          },
+        });
+      }
+
+      function updateNutritionSummary(summary) {
+        $("#calories-count").text(`${summary.calories}/2000`);
+        $("#protein-count").text(`${summary.protein}g/150g`);
+        $("#carbs-count").text(`${summary.carbs}g/250g`);
+        $("#fat-count").text(`${summary.fat}g/65g`);
+
+        // Update progress bars
+        $(".progress-bar")
+          .first()
+          .css("width", `${(summary.calories / 2000) * 100}%`);
+        $(".progress-bar.bg-success").css(
+          "width",
+          `${(summary.protein / 150) * 100}%`
+        );
+        $(".progress-bar.bg-info").css(
+          "width",
+          `${(summary.carbs / 250) * 100}%`
+        );
+        $(".progress-bar.bg-warning").css(
+          "width",
+          `${(summary.fat / 65) * 100}%`
+        );
+      }
+
+      function displayMeals(meals) {
+        const container = $("#meal-log");
+        container.empty();
+
+        if (meals.length === 0) {
+          container.append("<p>No meals logged today</p>");
+          return;
+        }
+
+        meals.forEach((meal) => {
+          container.append(`
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h6 class="mb-0">${meal.food}</h6>
+                                    <small class="text-muted">${meal.type}</small>
+                                </div>
+                                <div class="text-right">
+                                    <p class="mb-0">${meal.calories} calories</p>
+                                    <small class="text-muted">
+                                        P: ${meal.protein}g | C: ${meal.carbs}g | F: ${meal.fat}g
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+        });
+      }
+    </script>
+  </body>
+</html>

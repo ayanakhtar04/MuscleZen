@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress | MuscleZen</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/dashboard-common.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div id="sidebar-placeholder"></div>
+
+            <div class="col-md-9 col-lg-10 main-content">
+                <div class="page-header d-flex justify-content-between align-items-center">
+                    <h2>Progress Tracking</h2>
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#addProgressModal">
+                        <i class="fa fa-plus"></i> Log Progress
+                    </button>
+                </div>
+
+                <!-- Progress Overview -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h6>Current Weight</h6>
+                                <h3 id="current-weight">0 kg</h3>
+                                <small class="text-muted">Last updated: <span id="weight-date">-</span></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h6>Body Fat %</h6>
+                                <h3 id="body-fat">0%</h3>
+                                <small class="text-muted">Last updated: <span id="fat-date">-</span></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h6>Muscle Mass</h6>
+                                <h3 id="muscle-mass">0 kg</h3>
+                                <small class="text-muted">Last updated: <span id="muscle-date">-</span></small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h6>Total Workouts</h6>
+                                <h3 id="total-workouts">0</h3>
+                                <small class="text-muted">This month</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Weight Progress</h5>
+                                <canvas id="weightChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Body Composition</h5>
+                                <canvas id="compositionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Measurements & Personal Records -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Body Measurements</h5>
+                                <div id="measurements-list">
+                                    <!-- Measurements will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Personal Records</h5>
+                                <div id="records-list">
+                                    <!-- Records will be loaded here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Progress Modal -->
+    <div class="modal fade" id="addProgressModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Log Progress</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="progress-form">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" class="form-control" id="progress-date" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Weight (kg)</label>
+                                    <input type="number" step="0.1" class="form-control" id="weight" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Body Fat %</label>
+                                    <input type="number" step="0.1" class="form-control" id="body-fat-input">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Measurements</label>
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="number" step="0.1" class="form-control mb-2" id="chest" placeholder="Chest (cm)">
+                                    <input type="number" step="0.1" class="form-control mb-2" id="waist" placeholder="Waist (cm)">
+                                    <input type="number" step="0.1" class="form-control" id="hips" placeholder="Hips (cm)">
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" step="0.1" class="form-control mb-2" id="biceps" placeholder="Biceps (cm)">
+                                    <input type="number" step="0.1" class="form-control mb-2" id="thighs" placeholder="Thighs (cm)">
+                                    <input type="number" step="0.1" class="form-control" id="calves" placeholder="Calves (cm)">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-progress">Save Progress</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#sidebar-placeholder").load("components/sidebar.html", function() {
+                $('.nav-link[href="progress.html"]').addClass('active');
+            });
+
+            loadProgressData();
+
+            $('#save-progress').click(function() {
+                saveProgress();
+            });
+        });
+
+        function loadProgressData() {
+            $.ajax({
+                url: 'php/get_progress.php',
+                method: 'GET',
+                success: function(response) {
+                    if(response.status === 'success') {
+                        updateDashboard(response.data);
+                        initializeCharts(response.data);
+                        displayMeasurements(response.data.measurements);
+                        displayRecords(response.data.records);
+                    }
+                }
+            });
+        }
+
+        function saveProgress() {
+            const progressData = {
+                date: $('#progress-date').val(),
+                weight: $('#weight').val(),
+                bodyFat: $('#body-fat-input').val(),
+                measurements: {
+                    chest: $('#chest').val(),
+                    waist: $('#waist').val(),
+                    hips: $('#hips').val(),
+                    biceps: $('#biceps').val(),
+                    thighs: $('#thighs').val(),
+                    calves: $('#calves').val()
+                }
+            };
+
+            $.ajax({
+                url: 'php/save_progress.php',
+                method: 'POST',
+                data: progressData,
+                success: function(response) {
+                    if(response.status === 'success') {
+                        $('#addProgressModal').modal('hide');
+                        loadProgressData();
+                    }
+                }
+            });
+        }
+
+        function updateDashboard(data) {
+            $('#current-weight').text(data.current.weight + ' kg');
+            $('#body-fat').text(data.current.bodyFat + '%');
+            $('#muscle-mass').text(data.current.muscleMass + ' kg');
+            $('#total-workouts').text(data.workouts);
+            
+            $('#weight-date').text(data.current.date);
+            $('#fat-date').text(data.current.date);
+            $('#muscle-date').text(data.current.date);
+        }
+
+        function initializeCharts(data) {
+            // Weight Progress Chart
+            new Chart(document.getElementById('weightChart'), {
+                type: 'line',
+                data: {
+                    labels: data.history.dates,
+                    datasets: [{
+                        label: 'Weight (kg)',
+                        data: data.history.weights,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+            // Body Composition Chart
+            new Chart(document.getElementById('compositionChart'), {
+                type: 'line',
+                data: {
+                    labels: data.history.dates,
+                    datasets: [{
+                        label: 'Body Fat %',
+                        data: data.history.bodyFat,
+                        borderColor: 'rgb(255, 99, 132)',
+                        tension: 0.1
+                    }, {
+                        label: 'Muscle Mass (kg)',
+                        data: data.history.muscleMass,
+                        borderColor: 'rgb(54, 162, 235)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayMeasurements(measurements) {
+            const container = $('#measurements-list');
+            container.empty();
+
+            if (!measurements.length) {
+                container.append('<p>No measurements recorded</p>');
+                return;
+            }
+
+            const latest = measurements[0];
+            container.append(`
+                <div class="row">
+                    <div class="col-6">
+                        <p>Chest: ${latest.chest} cm</p>
+                        <p>Waist: ${latest.waist} cm</p>
+                        <p>Hips: ${latest.hips} cm</p>
+                    </div>
+                    <div class="col-6">
+                        <p>Biceps: ${latest.biceps} cm</p>
+                        <p>Thighs: ${latest.thighs} cm</p>
+                        <p>Calves: ${latest.calves} cm</p>
+                    </div>
+                </div>
+            `);
+        }
+
+        function displayRecords(records) {
+            const container = $('#records-list');
+            container.empty();
+
+            if (!records.length) {
+                container.append('<p>No personal records set</p>');
+                return;
+            }
+
+            records.forEach(record => {
+                container.append(`
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>${record.exercise}</span>
+                        <span>${record.value} ${record.unit}</span>
+                    </div>
+                `);
+            });
+        }
+    </script>
+</body>
+</html>
