@@ -15,9 +15,6 @@ This website contains frontend for MuscleZen website, and technologies used are
 - Download or clone the repository
 
 ```
-(https://github.com/MintViper03/MuscleZen.git)
-```
-
 - Go to the directory
 - Run the index.html file
 
