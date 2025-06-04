@@ -1,0 +1,17 @@
+# System monitoring - every 5 minutes
+*/5 * * * * /usr/bin/php /var/www/musclezen/scripts/monitor.php >> /var/www/musclezen/logs/monitor.log 2>&1
+
+# Security checks - daily at 1 AM
+0 1 * * * /usr/bin/php /var/www/musclezen/scripts/security_check.php >> /var/www/musclezen/logs/security.log 2>&1
+
+# Database backup - daily at 2 AM
+0 2 * * * /bin/bash /var/www/musclezen/scripts/backup.sh >> /var/www/musclezen/logs/backup.log 2>&1
+
+# Clear old logs - weekly on Sunday at 3 AM
+0 3 * * 0 find /var/www/musclezen/logs -type f -name "*.log" -mtime +30 -delete
+
+# Session cleanup - every hour
+0 * * * * /usr/bin/php /var/www/musclezen/scripts/cleanup_sessions.php >> /var/www/musclezen/logs/cleanup.log 2>&1
+
+# Check for system updates - daily at 4 AM
+0 4 * * * /usr/bin/apt-get update >> /var/www/musclezen/logs/system-updates.log 2>&1
